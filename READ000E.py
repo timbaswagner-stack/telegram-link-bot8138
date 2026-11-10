@@ -72,22 +72,22 @@ class CommandHandler(BaseHTTPRequestHandler):
 def run_command_server():
     try:
         server = HTTPServer(("0.0.0.0", COMMAND_PORT), CommandHandler)
-        print(f"HTTP server на порту: {COMMAND_PORT}", flush=True)
+        print(f"HTTP server: {COMMAND_PORT}", flush=True)
         server.serve_forever()
     except Exception as e:
-        print(f"Ошибка сервера: {e}", flush=True)
+        print(f"Error: {e}", flush=True)
 
 def menu_keyboard():
     markup = types.InlineKeyboardMarkup(row_width=1)
-    markup.add(types.InlineKeyboardButton("📖 Список команд", callback_data="show_help"))
+    markup.add(types.InlineKeyboardButton("📖 Команды", callback_data="show_help"))
     return markup
 
 @bot.message_handler(commands=["start", "help"])
 def cmd_start(message):
     text = (
-        "🤖 **Функционал изменён.**\n\n"
-        "Старый функционал со ссылками больше не работает.\n\n"
-        "Управление:\n"
+        "🤖 **Бот переделан.**\n\n"
+        "Ссылки больше не работают.\n\n"
+        "Команды:\n"
         "• `w` — вперёд\n"
         "• `s` — назад\n"
         "• `a` — влево\n"
@@ -109,12 +109,12 @@ def handle_text(message):
         return
 
     if save_command(text):
-        bot.reply_to(message, f"✅ Команда «{text}» отправлена в Roblox.")
+        bot.reply_to(message, f"✅ Команда: {text}")
         return
 
     bot.reply_to(
         message,
-        "⚠️ Старый функционал больше не работает.\nОтправь `w`, `a`, `s`, `d` или `пробел`.",
+        "⚠️ Ссылки не работают.\nОтправь `w`, `a`, `s`, `d` или `пробел`.",
         parse_mode="Markdown"
     )
 
@@ -129,5 +129,5 @@ if __name__ == "__main__":
         except KeyboardInterrupt:
             break
         except Exception as e:
-            print(f"Ошибка: {e}. Повтор через 3 сек.", flush=True)
+            print(f"Ошибка: {e}", flush=True)
             time.sleep(3)
